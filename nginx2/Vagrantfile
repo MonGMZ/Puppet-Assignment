@@ -1,0 +1,61 @@
+    # -*- mode: ruby -*-
+    # vi: set ft=ruby :
+     
+    Vagrant.configure('2') do |config|
+     
+      # OS
+      config.vm.box = 'ubuntu/bionic64'
+     
+      # IP
+      config.vm.network 'private_network', ip: '20.20.20.20'
+      config.vm.hostname = 'nginx2.vagrant.vm'
+     
+      # VirtualBox Config
+      config.vm.provider :virtualbox do |vb|
+     
+        # Virtual Machine Name 
+        vb.name = 'nginx2-netcentric'
+     
+        # Memory
+        vb.memory = 2048
+       
+        # procnum
+        vb.cpus = 2
+       
+      end
+
+      config.vm.provision "file", source: "./nginx_conf", destination: "/home/vagrant/nginx_conf"
+      
+      ####### Install Puppet Agent #######
+      config.vm.provision "shell", path: "./bootstrap.sh"      
+      
+      config.vm.provision :shell do |shell|
+        shell.inline = "puppet module install puppetlabs-apt;
+                        puppet module install puppet-nginx;"          
+      end     
+
+      # Puppet provisioning
+      config.vm.provision :puppet do |puppet|
+     
+        # Manifestos path 
+        puppet.manifests_path = 'puppet/manifests'
+     
+        # Initial manifiesto's name
+        puppet.manifest_file = 'nginx.pp'
+
+        # Puppet modules path
+        #puppet.module_path = "puppet/modules"
+
+        # Puppet options
+        puppet.options = [
+          '--verbose',
+          '--debug',
+        ]
+     
+      end
+     
+      #config.vm.provision "file", source: "./html/index.html", destination: "/var/www/html/index.html"
+      config.vm.provision "file", source: "./html/index.html", destination: "/vagrant/html/"
+      #config.vm.provision "file", source: "./html/index.html", destination: "/var/www/html/index.nginx-debian.html"
+
+    end

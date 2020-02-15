@@ -4,7 +4,7 @@
     Vagrant.configure('2') do |config|
      
       # OS
-      config.vm.box = 'ubuntu/bionic64'
+      config.vm.box = 'hashicorp/bionic64'
      
       # IP
       config.vm.network 'private_network', ip: '10.0.0.100'
@@ -14,7 +14,7 @@
       config.vm.provider :virtualbox do |vb|
      
         # Virtual Machine Name 
-        vb.name = 'puppet-netcentric'
+        vb.name = 'reverse-netcentric'
      
         # Memory
         vb.memory = 2048
@@ -26,6 +26,7 @@
       config.ssh.username = "vagrant"
       config.ssh.password = "vagrant"
       config.vm.synced_folder "login/", "/home/vagrant/share/"
+      config.vm.provision "file", source: "./nginx_conf", destination: "/home/vagrant/nginx_conf"
       
       ####### Install Puppet Agent #######
       config.vm.provision "shell", path: "./bootstrap.sh"      
@@ -34,7 +35,6 @@
         shell.inline = "puppet module install puppetlabs-apt;
                         puppet module install puppet-nginx;"          
       end     
-      config.vm.provision "file", source: "./nginx_conf", destination: "/home/vagrant/nginx_conf"
       #config.vm.provision "shell", path: "sudo cp /home/vagrant/nginx_conf/cert* /etc/nginx/ && chown root /etc/nginx/cert*"     
       # Puppet provisioning
       config.vm.provision :puppet do |puppet|

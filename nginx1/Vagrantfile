@@ -24,6 +24,7 @@
        
       end
       
+      config.vm.provision "file", source: "./nginx_conf", destination: "/home/vagrant/nginx_conf"
       ####### Install Puppet Agent #######
       config.vm.provision "shell", path: "./bootstrap.sh"      
       
@@ -39,7 +40,7 @@
         puppet.manifests_path = 'puppet/manifests'
      
         # Initial manifiesto's name
-        puppet.manifest_file = 'default.pp'
+        puppet.manifest_file = 'nginx.pp'
 
         # Puppet modules path
         #puppet.module_path = "puppet/modules"
@@ -52,6 +53,9 @@
      
       end
      
-      config.vm.synced_folder "html", "/var/www/html"
+      #config.vm.synced_folder "html", "/var/www/html"
+      #config.vm.provision "file", source: "./html/index.html", destination: "/var/www/html/index.html"
+      config.vm.provision "file", source: "./html/index.html", destination: "/vagrant/html/"
+      #config.vm.provision "file", source: "./html/index.html", destination: "/var/www/html/index.nginx-debian.html"
 
     end
