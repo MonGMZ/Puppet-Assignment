@@ -8,10 +8,10 @@ class{'nginx':
     package_source => 'nginx-stable'
 }
 nginx::resource::server { 'devops.local':
-  #proxy       => 'http://10.0.0.101',
-  ssl         => true,
-  ssl_cert    => '/etc/nginx/cert.crt',
-  ssl_key     => '/etc/nginx/cert.key'
+  ssl                 => true,
+  ssl_cert            => '/home/vagrant/nginx_conf/cert.crt',
+  ssl_key             => '/home/vagrant/nginx_conf/cert.key',
+  www_root            => "/vagrant/html/",
 }
 # nginx::resource::server { 'devops.local/resource2':
 #   proxy       => 'http://20.20.20.20',

@@ -25,7 +25,7 @@
       end
       config.ssh.username = "vagrant"
       config.ssh.password = "vagrant"
-      config.vm.synced_folder "login/", "/home/vagrant/share/"
+      config.vm.synced_folder "logs/", "/var/log/nginx"
       config.vm.provision "file", source: "./nginx_conf", destination: "/home/vagrant/nginx_conf"
       
       ####### Install Puppet Agent #######
@@ -43,7 +43,7 @@
         puppet.manifests_path = 'puppet/manifests'
      
         # Initial manifiesto's name
-        puppet.manifest_file = 'reverse1.pp'
+        puppet.manifest_file = 'forward.pp'
 
         # Puppet modules path
         #puppet.module_path = "puppet/modules"

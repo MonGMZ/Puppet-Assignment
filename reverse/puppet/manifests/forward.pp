@@ -12,7 +12,4 @@ nginx::resource::server{'forward_proxy':
   proxy               => '$scheme://$http_host$uri$is_args$args',
   resolver            => ['8.8.8.8'],
   format_log          => 'custom',
-  ssl                 => true,
-  ssl_cert            => '/home/vagrant/nginx_conf/cert.crt',
-  ssl_key             => '/home/vagrant/nginx_conf/cert.key',
 }
