@@ -43,7 +43,7 @@
         puppet.manifests_path = 'puppet/manifests'
      
         # Initial manifiesto's name
-        puppet.manifest_file = 'reverse3.pp'
+        puppet.manifest_file = 'reverse4.pp'
 
         # Puppet modules path
         #puppet.module_path = "puppet/modules"
