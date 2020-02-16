@@ -27,20 +27,21 @@ class nginx::package::redhat {
   #clone and provide the Red Hat-specific package. This comes into play when not
   #on RHEL or CentOS and $manage_repo is set manually to 'true'.
   $_os = $facts['os']['name'] ? {
-    'centos' => 'centos',
-    default  => 'rhel'
+    'centos'         => 'centos',
+    'VirtuozzoLinux' => 'centos',
+    default          => 'rhel'
   }
 
   if $manage_repo {
     case $package_source {
       'nginx', 'nginx-stable': {
         yumrepo { 'nginx-release':
-          baseurl  => "http://nginx.org/packages/${_os}/${facts['os']['release']['major']}/\$basearch/",
+          baseurl  => "https://nginx.org/packages/${_os}/${facts['os']['release']['major']}/\$basearch/",
           descr    => 'nginx repo',
           enabled  => '1',
           gpgcheck => '1',
           priority => '1',
-          gpgkey   => 'http://nginx.org/keys/nginx_signing.key',
+          gpgkey   => 'https://nginx.org/keys/nginx_signing.key',
           before   => Package['nginx'],
         }
 
@@ -53,12 +54,12 @@ class nginx::package::redhat {
       }
       'nginx-mainline': {
         yumrepo { 'nginx-release':
-          baseurl  => "http://nginx.org/packages/mainline/${_os}/${facts['os']['release']['major']}/\$basearch/",
+          baseurl  => "https://nginx.org/packages/mainline/${_os}/${facts['os']['release']['major']}/\$basearch/",
           descr    => 'nginx repo',
           enabled  => '1',
           gpgcheck => '1',
           priority => '1',
-          gpgkey   => 'http://nginx.org/keys/nginx_signing.key',
+          gpgkey   => 'https://nginx.org/keys/nginx_signing.key',
           before   => Package['nginx'],
         }
 
@@ -70,7 +71,7 @@ class nginx::package::redhat {
         }
       }
       'passenger': {
-        if ($facts['os']['name'] in ['RedHat', 'CentOS']) and ($facts['os']['release']['major'] in ['6', '7']) {
+        if ($facts['os']['name'] in ['RedHat', 'CentOS', 'VirtuozzoLinux']) and ($facts['os']['release']['major'] in ['6', '7']) {
           yumrepo { 'passenger':
             baseurl       => "https://oss-binaries.phusionpassenger.com/yum/passenger/el/${facts['os']['release']['major']}/\$basearch",
             descr         => 'passenger repo',
@@ -78,7 +79,7 @@ class nginx::package::redhat {
             gpgcheck      => '0',
             repo_gpgcheck => '1',
             priority      => '1',
-            gpgkey        => 'https://packagecloud.io/gpg.key',
+            gpgkey        => 'https://packagecloud.io/phusion/passenger/gpgkey',
             before        => Package['nginx'],
           }
 
