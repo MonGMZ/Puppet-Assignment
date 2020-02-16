@@ -44,3 +44,5 @@ The vagrant file nginx2 is the nginx that will be hosted on https://20.20.20.20 
     format_log          => 'custom',
   }
   ```
+  
+  To put together the puppet code in a module I followed this instructions: https://puppet.com/docs/pdk/1.x/pdk_creating_modules.html
