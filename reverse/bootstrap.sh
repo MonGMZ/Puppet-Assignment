@@ -16,14 +16,14 @@ sudo apt-get -o Dpkg::Options::='--force-confnew' -y -q install \
 echo "Bootstrap: updating /etc/nsswitch.conf to configure Avahi/MDNS for .local lookup"
 sudo sed -i 's/hosts:.*/hosts:          files mdns4_minimal [NOTFOUND=return] dns myhostname/g' /etc/nsswitch.conf
 
-# FILE=cert.crt
-# if [ ! -f /etc/nginx/$FILE ]; then
-#   sudo cp /home/vagrant/nginx_conf/$FILE /etc/nginx/ && sudo chown root /etc/nginx/$FILE  && sudo chmod 700 /etc/nginx/$FILE 
-# fi
-# FILE=cert.key
-# if [ ! -f /etc/nginx/$FILE ]; then
-#   sudo cp /home/vagrant/nginx_conf/$FILE /etc/nginx/ && sudo chown root /etc/nginx/$FILE  && sudo chmod 744 /etc/nginx/$FILE 
-# fi
+FILE=cert.crt
+if [ ! -f /etc/nginx/$FILE ]; then
+  sudo cp /home/vagrant/nginx_conf/$FILE /etc/nginx/ && sudo chown root /etc/nginx/$FILE  && sudo chmod 700 /etc/nginx/$FILE 
+fi
+FILE=cert.key
+if [ ! -f /etc/nginx/$FILE ]; then
+  sudo cp /home/vagrant/nginx_conf/$FILE /etc/nginx/ && sudo chown root /etc/nginx/$FILE  && sudo chmod 744 /etc/nginx/$FILE 
+fi
 
 
 command -v puppet > /dev/null && { echo "Puppet is installed! skipping" ; exit 0; }
